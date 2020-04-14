@@ -1,10 +1,14 @@
 package com.bridgelabz.quantitymeasurement.controller;
 
+import com.bridgelabz.quantitymeasurement.enums.SubUnits;
 import com.bridgelabz.quantitymeasurement.enums.UnitType;
 import com.bridgelabz.quantitymeasurement.services.QuantityMeasurementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class QuantityMeasurementController {
@@ -16,6 +20,12 @@ public class QuantityMeasurementController {
     public UnitType[] getUnits()
     {
         return quantityMeasurementService.getUnitType();
+    }
+
+    @GetMapping("/unittype/subunittype")
+    public List<SubUnits> getSubUnits(@RequestParam("unittype") String unittype)
+    {
+        return quantityMeasurementService.getSubUnitType(unittype);
     }
 
 }
