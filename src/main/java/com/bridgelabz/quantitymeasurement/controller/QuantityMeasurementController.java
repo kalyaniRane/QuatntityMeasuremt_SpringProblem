@@ -1,13 +1,12 @@
 package com.bridgelabz.quantitymeasurement.controller;
 
 import com.bridgelabz.quantitymeasurement.dto.UnitConversionDto;
-import com.bridgelabz.quantitymeasurement.enums.SubUnits;
-import com.bridgelabz.quantitymeasurement.enums.UnitType;
+import com.bridgelabz.quantitymeasurement.dto.UnitConversionResponseDto;
 import com.bridgelabz.quantitymeasurement.services.QuantityMeasurementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class QuantityMeasurementController {
@@ -16,20 +15,23 @@ public class QuantityMeasurementController {
     public QuantityMeasurementService quantityMeasurementService;
 
     @GetMapping("/unittype")
-    public UnitType[] getUnits()
+    public ResponseEntity getUnits()
     {
-        return quantityMeasurementService.getUnitType();
+        return new ResponseEntity(quantityMeasurementService.getUnitType(), HttpStatus.OK);
+
     }
 
     @GetMapping("/unittype/subunittype")
-    public List<SubUnits> getSubUnits(@RequestParam("unittype") String unittype)
+    public ResponseEntity getSubUnits(@RequestParam("unittype") String unittype)
     {
-        return quantityMeasurementService.getSubUnitType(unittype);
+        return new ResponseEntity(quantityMeasurementService.getSubUnitType(unittype), HttpStatus.OK);
     }
 
     @PostMapping("/conversion/units")
-    public double UnitConversion(@RequestBody UnitConversionDto unitConversionDto){
-        return quantityMeasurementService.convertUnit(unitConversionDto);
+    public ResponseEntity UnitConversion(@RequestBody UnitConversionDto unitConversionDto){
+        double result = quantityMeasurementService.convertUnit(unitConversionDto);
+        UnitConversionResponseDto responseDto=new UnitConversionResponseDto(200,"Response Successful",result);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
 }
