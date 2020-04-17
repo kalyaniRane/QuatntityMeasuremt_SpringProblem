@@ -12,14 +12,6 @@ public class UnitConversionResponseDto {
         this.responseData = responseData;
     }
 
-    public int getStatusCode() {
-        return statusCode;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
     public Object getResponseData() {
         return responseData;
     }
